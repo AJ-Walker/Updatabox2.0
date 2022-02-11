@@ -1,0 +1,123 @@
+{% extends 'user_base.html' %}
+{% load static %}
+{% load humanize %}
+{% load file_type %}
+{% block title %}Dashboard{% endblock %}
+
+{% block main %}
+<div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/u">Home</a></li>
+        <li class="breadcrumb-item active">Dashboard</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+  {% include 'includes/message.html' %}
+  <div class="col-12">
+    <div class="card quick-access">
+      <div class="card-body pb-0">
+        <div class="row">
+          <div class="col-lg-7">
+            <h1 class="mt-4">Welcome {{ user.name }}</h1>
+            <p class="fs-3">Here are some of your recent files <br>Check it out
+            </p>
+          </div>
+          <div class="col-lg-5">
+            <img src="{% static 'img/file-icon/background.png' %}" class="card-img-top d-logo" alt="...">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Recent Files
+        </h5>
+        {% if files|length > 1 %}
+        <div class="table-responsive">
+        <table class="table table-hover" id="myTable" >
+          <thead id="view-head" class="table-light" style="height: 60px;">
+            <tr>
+              <th scope="col" style="width:33.33333333%;">Name</th>
+              <th scope="col" style="width:16.66666667%">Last Modified</th>
+              <th scope="col" style="width:16.66666667%">Type</th>
+              <th scope="col" style="width:16.66666667%">Size</th>
+              <th scope="col" data-sortable="false" style="width:8.33333333%;text-align: center;">Download</th>
+              <th scope="col" data-sortable="false" style="width:8.33333333%;text-align: center;">Delete</th>
+            </tr>
+          </thead>
+          <tbody id="view-body">
+            {% for file in files %}
+            <tr id="view-item">
+              <td id="view-name">
+                {% if file.Key|file_type == "Encrypted File" %}
+                <img src="{% static 'img/file-icon/enc.png' %}" class="grid-view-img" alt="...">
+                {% elif file.Key|file_type == "pdf" %}
+                <img src="{% static 'img/file-icon/pdf.png' %}"class="grid-view-img" alt="..." id="img-file">
+                {% elif file.Key|file_type == "doc" %}
+                <img src="{% static 'img/file-icon/doc.png' %}"class="grid-view-img" alt="..." id="img-file">
+                {% elif file.Key|file_type == "mpeg" %}
+                <img src="{% static 'img/file-icon/music.png' %}"class="grid-view-img" alt="..." id="img-file">
+                {% elif file.Key|file_type == "png" %}
+                <img src="{% static 'img/file-icon/image.png' %}"class="grid-view-img" alt="..." id="img-file">
+                {% elif file.Key|file_type == "excel" %}
+                <img src="{% static 'img/file-icon/excel.png' %}"class="grid-view-img" alt="..." id="img-file">
+                {% elif file.Key|file_type == "powerpoint" %}
+                <img src="{% static 'img/file-icon/powerpoint.png' %}"class="grid-view-img" alt="..." id="img-file">
+                {% elif file.Key|file_type == "zip" %}
+                <img src="{% static 'img/file-icon/zip.png' %}"class="grid-view-img" alt="..." id="img-file">
+                {% else %}
+                <img src="{% static 'img/file-icon/other.png' %}"class="grid-view-img" alt="..." id="img-file">
+                {% endif %}
+                <span class="mx-2">{{ file.Key|truncatechars:50 }}</span>
+              </td>
+              <td>{{ file.LastModified|naturaltime }}</td>
+              <td>{{ file.Key|file_type }}</td>
+              <td>{{ file.Size|filesizeformat }}</td>
+              <td class="dd-btn">
+                <form action="/u/files/download" method="post" id="list-view-form">
+                {% csrf_token %}
+                <input type="hidden" name="file" value="{{ file.Key }}">
+                  <button type="submit" class="button download">
+                    <i class="fa fa-download"></i>
+                  </button>
+                </form>
+              </td>
+              <td class="dd-btn">
+                <form action="/u/files/delete" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="file" value="{{ file.Key }}">
+                <button type="submit" class="button delete">
+                  <i class="fa fa-trash-alt"></i>
+                </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+        {% else %}
+        <h1 class="subtitle">No Recent Files</h1>
+  {% endif %}
+      </div>
+    </div>
+  </div>
+
+  
+
+{% endblock %}
+
+{% block script %}
+<script>
+
+const dataTable = new simpleDatatables.DataTable("#myTable", {
+	searchable: true,
+});
+
+</script>
+{% endblock %}

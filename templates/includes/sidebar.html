@@ -1,0 +1,90 @@
+{% load static %}
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/u">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/u/files">
+          <i class="bi bi-grid"></i>
+          <span>Files</span>
+        </a>
+      </li><!-- End Files Nav -->
+
+      
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/u/profile">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </a>
+      </li><!-- End Profile Page Nav -->
+
+      <!-- <li class="nav-item">
+        <a class="nav-link collapsed" href="/u/faq">
+          <i class="bi bi-question-circle"></i>
+          <span>F.A.Q</span>
+        </a>
+      </li>End F.A.Q Page Nav -->
+      
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/u/contact">
+          <i class="bi bi-envelope"></i>
+          <span>Contact</span>
+        </a>
+      </li><!-- End Contact Page Nav -->
+
+      <hr>
+      <div class="card" style="box-shadow: none;">
+        <div class="card-body">
+          <h5 class="card-title fs-2">
+            <i class="bi bi-cloud mx-2"></i>Storage
+          </h5>
+          <h6 class="card-subtitle mb-3">Current Plan <span class="badge rounded-pill bg-primary">{{ user.profile.plan }}</span></h6>
+          <h6 class="card-subtitle mb-2 text-muted">{{ user.profile.storage_used | filesizeformat }} / {{ user.profile.storage_limit | filesizeformat }} Used</h6>
+          <div class="progress my-4" style="height: 8px;">
+            <div class="progress-bar" role="progressbar" style="transition: width 2s ease 0s; width: 23px" id="pbar" aria-valuenow="{{ user.profile.storage_used }}" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <h6 class="card-subtitle mb-4 text-muted" id="stp">0% Full - 3.9 GB Free</h6>
+          <p class="card-text"><a href="/u/plan" class="btn btn-primary">Buy Storage</a></p>
+        </div>
+      </div><!-- End Card with titles, buttons, and links -->
+    </ul>
+    
+  </aside><!-- End Sidebar-->
+
+  {% block script %}
+  <script>
+    pbar = document.getElementById("pbar");
+    stp = document.getElementById("stp");
+    console.log(stp);
+    var total = '{{ user.profile.storage_limit }}';
+    var used = '{{ user.profile.storage_used }}';
+    var free = bytesForHuman(total - used);
+    console.log(free);
+    var percent = (used / total) * 100;
+    console.log(percent);
+    pbar.style.width = percent + "%";
+    stp.innerHTML = percent.toPrecision(2) + "% Full - " +  free + " Free";
+
+    function bytesForHuman(bytes) {
+    let units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
+
+    let i = 0
+    
+    for (i; bytes > 1024; i++) {
+        bytes /= 1024;
+    }
+    return bytes.toFixed(1) + ' ' + units[i]
+}
+    
+
+  </script>
+  {% endblock %}

@@ -1,0 +1,22 @@
+{% load static %}
+{% load file_type %}
+
+{% if file.key|file_type == "Encrypted File" %}
+<img src="{% static 'img/file-icon/enc.png' %}" class="grid-view-img" alt="...">
+{% elif file.key|file_type == "pdf" %}
+<img src="{% static 'img/file-icon/pdf.png' %}"class="grid-view-img" alt="..." id="img-file">
+{% elif file.key|file_type == "doc" %}
+<img src="{% static 'img/file-icon/doc.png' %}"class="grid-view-img" alt="..." id="img-file">
+{% elif file.key|file_type == "mpeg" %}
+<img src="{% static 'img/file-icon/music.png' %}"class="grid-view-img" alt="..." id="img-file">
+{% elif file.key|file_type == "png" %}
+<img src="{% static 'img/file-icon/image.png' %}"class="grid-view-img" alt="..." id="img-file">
+{% elif file.key|file_type == "excel" %}
+<img src="{% static 'img/file-icon/excel.png' %}"class="grid-view-img" alt="..." id="img-file">
+{% elif file.key|file_type == "powerpoint" %}
+<img src="{% static 'img/file-icon/powerpoint.png' %}"class="grid-view-img" alt="..." id="img-file">
+{% elif file.key|file_type == "zip" %}
+<img src="{% static 'img/file-icon/zip.png' %}"class="grid-view-img" alt="..." id="img-file">
+{% else %}
+<img src="{% static 'img/file-icon/other.png' %}"class="grid-view-img" alt="..." id="img-file">
+{% endif %}

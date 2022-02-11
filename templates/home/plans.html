@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Updatabox | Pricing {% endblock %}
+
+{% block content %}
+
+<!-- ======= Pricing Section ======= -->   
+<section id="pricing" class="pricing">
+    {% include 'includes/message.html' %}
+    <div class="section-title">
+      <span>Pricing</span>
+      <h2>Pricing</h2>
+
+      <h4>Choose the best plan for you.</h4>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="pricing-plan">
+                <div class="columns">
+                    <ul class="price">
+                      <li class="header" id="free">Free</li>
+                      <li class="grey">$ 0 / month</li>
+                      <li>5GB Storage</li>
+                      <li>1GB Single file upload</li>
+                      <li>24/7 Customer Support</li>
+                      <li class="grey">
+                        <form action="/plans" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" id="plan" name="plan" class="plan" value="free">
+                            <button class="btn-plan" type="submit">GET PLAN</button>
+                        </form>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div class="columns">
+                    <ul class="price">
+                      <li class="header" id="basic">Basic</li>
+                      <li class="grey">$ 9.99 / month</li>
+                      <li>15GB Storage</li>
+                      <li>2GB Single file upload</li>
+                      <li>24/7 Customer Support</li>
+                      <li class="grey">
+                        <form action="/plans" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" id="plan" name="plan" class="plan" value="basic">
+                            <button class="btn-plan" type="submit">GET PLAN</button>
+                        </form>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div class="columns">
+                    <ul class="price">
+                      <li class="header" id="premium">Premium</li>
+                      <li class="grey">$ 19.99 / month</li>
+                      <li>50GB Storage</li>
+                      <li>5GB Single file upload</li>
+                      <li>24/7 Customer Support</li>
+                      <li class="grey">
+                        <form action="/plans" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" id="plan" name="plan" class="plan" value="premium">
+                            <button class="btn-plan" type="submit">GET PLAN</button>
+                        </form>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+        </div>	
+    </div>
+</section>             
+</div>
+</section><!-- End Pricing Section -->
+
+{% endblock %}

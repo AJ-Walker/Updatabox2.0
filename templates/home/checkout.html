@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Updatabox | Checkout {% endblock %}
+
+{% block content %}
+<section class="checkout">
+  {% include 'includes/message.html' %}
+    <div class="container mt-5">
+          <div class="row justify-content-center">
+            <div class="col-lg-6 d-flex flex-column align-items-center justify-content-center">
+              <div class="card mb-3 mt-5 outer">
+                <div class="card-body">
+                  <div class="pt-2">
+                    <h5 class="card-title text-center pb-0 fs-4">Checkout</h5>
+                    <p class="text-center small">Check your Details</p>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="card mb-3 plan-card">
+                          <div class="card-header">{{ plan }} Plan</div>
+                          <div class="card-body text-dark">
+                            <h5 class="card-title">Benefits</h5>
+                              <ul class="card-text">
+                                {% for benefit in benefits %}
+                                  <li>{{ benefit }}</li>
+                                  {% endfor %}
+                              </ul>
+                          </div>
+                          <div class="card-footer">
+                           {{ price }}
+                          </div>
+                        </div>
+                        <p class="small mb-0 text-center">Choose a different <a href="/plans">Plan</a></p>
+                    </div>
+                      <div class="col-lg-6">
+                        <div class="details">
+                          <h1>Details</h1>
+                          <hr>
+                          <p>{{ name }}</p>
+                          <p>{{ email }}</p>
+                          <hr class="btns">
+                          <p>
+                            <form action="/checkout" method="POST">
+                              {% csrf_token %}
+                              <input type="hidden" name="email" value="{{ email }}">
+                              <input type="hidden" name="userplan" value="{{ plan }}">
+                              {% if plan == 'Free' %}
+                              <button type="submit" class="buy">Create</button>
+                              {% else %}
+                              <button type="submit" class="buy" id="pay-btn">Buy</button>
+                              {% endif %}
+                            <button type="submit" class="cancel" formaction="/">Cancel</button>
+                          </form>
+                          </p>
+                  </div>
+                </div>
+            </div>
+            </div>
+          </div>
+
+    </div>
+  </section>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

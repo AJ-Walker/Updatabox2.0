@@ -1,0 +1,87 @@
+{% extends 'user_base.html' %}
+
+{% load static %}
+
+{% block title %} Dashboard | Plan {% endblock %}
+
+{% block main %}
+<div class="pagetitle">
+    <h1>Plan</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/u">Home</a></li>
+        <li class="breadcrumb-item active">Plan</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <div class="col-12">
+    <div class="card">
+        <h3 class="text-center m-3">Choose a different plan</h3>
+        <h4 class="text-center">Your Current plan : <strong>{{ user.profile.plan }}</strong></h4>
+    <div class="pricing-plan">
+    <div class="columns">
+        <ul class="price">
+          <li class="header" id="free">Free</li>
+          <li class="grey">$ 0 / month</li>
+          <li>5GB Storage</li>
+          <li>1GB Single file upload</li>
+          <li>24/7 Customer Support</li>
+          <li class="grey"><a href="/u/plan/checkout/free" id="free-btn" class="btn button">Select</a></li>
+        </ul>
+      </div>
+      
+      <div class="columns">
+        <ul class="price">
+          <li class="header" id="basic">Basic</li>
+          <li class="grey">$ 9.99 / month</li>
+          <li>15GB Storage</li>
+          <li>2GB Single file upload</li>
+          <li>24/7 Customer Support</li>
+          <li class="grey"><a href="/u/plan/checkout/basic" id="basic-btn" class="btn button">Select</a></li>
+        </ul>
+      </div>
+      
+      <div class="columns">
+        <ul class="price">
+          <li class="header" id="premium">Premium</li>
+          <li class="grey">$ 19.99 / month</li>
+          <li>50GB Storage</li>
+          <li>5GB Single file upload</li>
+          <li>24/7 Customer Support</li>
+          <li class="grey"><a href="/u/plan/checkout/premium" id="premium-btn" class="btn button">Select</a></li>
+        </ul>
+      </div>
+    </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+  free_btn = document.getElementById('free-btn');
+  basic_btn = document.getElementById('basic-btn');
+  premium_btn = document.getElementById('premium-btn');
+  free_plan = document.getElementById('free');
+  basic_plan = document.getElementById('basic');
+  premium_plan = document.getElementById('premium');
+  user_plan = '{{ user.profile.plan }}';
+  if (user_plan == 'Free') {
+    free_btn.classList.add('disabled');
+    free_btn.setAttribute('aria-disabled', 'true');
+    free_btn.setAttribute('tabindex', '-1');
+    free_plan.style.backgroundColor = '#4154f1';
+  } else if (user_plan == 'Basic') {
+    basic_btn.classList.add('disabled');
+    basic_btn.setAttribute('aria-disabled', 'true');
+    basic_btn.setAttribute('tabindex', '-1');
+    basic_plan.style.backgroundColor = '#4154f1';
+  } else if (user_plan == 'Premium') {
+    premium_btn.classList.add('disabled');
+    premium_btn.setAttribute('aria-disabled', 'true');
+    premium_btn.setAttribute('tabindex', '-1');
+    premium_plan.style.backgroundColor = '#4154f1';
+  }
+</script>
+{% endblock %}

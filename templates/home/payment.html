@@ -1,0 +1,31 @@
+{% load static %}
+
+<form method="POST">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+    var options = {
+        key: "{{razorpay_key}}",
+        amount: "{{amount}}", 
+        currency: "INR",
+        name: "{{order.user.name}}",
+        description: "Updatabox Payment",
+        image: "{% static 'img/u-logo.png' %}",
+        order_id: "{{order.provider_order_id}}",
+        callback_url: "{{callback_url}}",
+        redirect: true,
+        prefill: {
+            "name": "{{order.user.name}}",
+            "email": "{{order.user.email}}",
+        },
+        notes: {
+            "address": "Razorpay Corporate Office"
+        },
+        theme: {
+            "color": "#4154F1"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+    </script>
+    <input type="hidden" custom="Hidden Element" name="hidden">
+  </form>

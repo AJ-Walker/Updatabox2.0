@@ -1,0 +1,51 @@
+{% extends 'user_base.html' %}
+{% load static %}
+{% block title %} Dashboard | Download {% endblock %}
+
+{% block main %}
+<div class="pagetitle">
+    <h1>Forget Key</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/u">Home</a></li>
+        <li class="breadcrumb-item"><a href="/u/files">Files</a></li>
+        <li class="breadcrumb-item"><a href="/u/files">Download</a></li>
+        <li class="breadcrumb-item active">Forget Key</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+  {% include 'includes/message.html' %}
+  <section class="section contact">
+    <div class="row gy-4">
+      <div class="col-lg-5">
+        <div class="card p-4">
+          <form action="/u/files/forget-key/{{ filename }}" method="post" class="contact-form" id="key_form">
+            {% csrf_token %}
+            <div class="row gy-4">
+              <div class="col-md-12">
+                <label for="exampleFormControlInput1" class="form-label">Enter your password</label>
+                <input type="password" id="password" class="form-control" name="password" placeholder="*********" required>
+                <div class="invalid-feedback" id="passReq"></div>
+              </div>
+
+              <div class="col-md-12 text-center">
+                <div class="d-flex justify-content-evenly align-items-center">
+                <button type="submit" style="min-width: 35%;">Submit</button>
+                <a href="/u/files/download" class="btn btn-primary" role="button" style="min-width: 35%; line-height: 2; border: none;">Cancel</a>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  {% endblock %}
+
+  {% block script %}
+<script src="{% static 'js/password.js' %}"></script>
+{% endblock %}

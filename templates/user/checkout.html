@@ -1,0 +1,71 @@
+{% extends 'user_base.html' %}
+
+{% load static %}
+
+{% block title %} Dashboard | Plan {% endblock %}
+
+{% block main %}
+<div class="pagetitle">
+    <h1>Plan</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/u">Home</a></li>
+        <li class="breadcrumb-item"><a href="/u/plan">Plan</a></li>
+        <li class="breadcrumb-item active">Checkout</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+  {% include 'includes/message.html' %}
+  <div class="col-12">
+      <div class="checkout">
+          <div class="card" style="min-width: 50%;">
+            <div class="card-body">
+              <div class="pt-2">
+                <h5 class="card-title text-center pb-0 fs-4">Checkout</h5>
+                <p class="text-center small">Check your Details</p>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="card mb-3 plan-card">
+                      <div class="card-header">{{ plan|title }} Plan</div>
+                      <div class="card-body text-dark">
+                        <h5 class="card-title">Benefits</h5>
+                          <ul class="card-text">
+                            {% for benefit in benefits %}
+                              <li>{{ benefit }}</li>
+                              {% endfor %}
+                          </ul>
+                      </div>
+                      <div class="card-footer">
+                       {{ price }}
+                      </div>
+                    </div>
+                    <p class="small mb-0 text-center">Choose a different <a href="/u/plan">Plan</a></p>
+                </div>
+                  <div class="col-lg-6">
+                    <div class="details">
+                      <h1>Details</h1>
+                      <hr>
+                      <p>{{ name }}</p>
+                      <p>{{ email }}</p>
+                      <hr class="btns">
+                      <p>
+                        <form action="/u/plan/checkout/{{plan}}" method="POST">
+                          {% csrf_token %}
+                          <input type="hidden" name="email" value="{{ email }}">
+                          <input type="hidden" name="userplan" value="{{ plan }}">
+                          {% if plan == 'free' %}
+                          <button type="submit" class="buy">Confirm</button>
+                          {% else %}
+                          <button type="submit" class="buy" id="pay-btn">Buy</button>
+                          {% endif %}
+                        <button type="submit" class="cancel" formaction="/u/">Cancel</button>
+                      </form>
+                      </p>
+              </div>
+            </div>
+        </div></div>
+  </div>
+
+{% endblock %}

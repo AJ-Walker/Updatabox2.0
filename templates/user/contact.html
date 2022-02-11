@@ -1,0 +1,65 @@
+{% extends 'user_base.html' %}
+{% load static %}
+{% block title %} Dashboard | Contact {% endblock %}
+
+{% block main %}
+<div class="pagetitle">
+    <h1>Contact</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/u">Home</a></li>
+        <li class="breadcrumb-item active">Contact</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+  {% include 'includes/message.html' %}
+  <section class="section contact">
+
+    <div class="row gy-4">
+
+      <div class="col-xl-6">
+        <div class="card p-4">
+          <form action="/u/contact" method="post" class="contact-form" onsubmit="return checkDetails()">
+            {% csrf_token %}
+            <div class="row gy-4">
+
+              <div class="col-md-12">
+                <label for="exampleFormControlInput1" class="form-label">Name</label>
+                <input type="text" id="nameId" name="name" class="form-control" placeholder="e.g. Alex John" required>
+                <div class="invalid-feedback" id="nameReq">
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <label for="exampleFormControlInput1" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="e.g. alex@example.com" required>
+                <div class="invalid-feedback" id="emailReq">
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <label for="exampleFormControlInput1" class="form-label">Message</label>
+                <textarea class="form-control" id="msg" name="message" rows="6" placeholder="Message" required></textarea>
+                <div class="invalid-feedback" id="msgReq">
+                </div>
+              </div>
+
+              <div class="col-md-12 text-center">
+                <button type="submit">Send Message</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  {% endblock %}
+
+  {% block script %}
+<script src="{% static 'js/contact.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Updatabox | contact {% endblock %}
+{% block content %}
+
+<!-- ======= About Section ======= -->
+<section id="contact" class="contact">
+  {% include 'includes/message.html' %}
+    <div class="container mt-5">
+      <div class="row mx-2">
+        <div class="col-lg-6">
+          <h1>Contact Us</h1>
+          <h3>We would like to hear from you and if you have any queries regarding UpdataBox or Any Suggestions</h3>
+          <img src="{% static 'img/contact.jpg' %}" class="img-fluid" alt="">
+        </div>
+        <div class="col-lg-6 pt-4 pt-lg-0 content">
+                <div class="contact-card p-4">
+                  <form action="/contact" method="post" class="contact-form" onsubmit="return checkDetails()">
+                    {% csrf_token %}
+                    <div class="row gy-4">
+                      <div class="col-md-12">
+                        <label for="exampleFormControlInput1" class="form-label">Name</label>
+                        <input type="text" id="nameId" name="name" class="form-control" placeholder="e.g. Alex John" required>
+                        <div class="invalid-feedback" id="nameReq">
+                        </div>
+                      </div>
+      
+                      <div class="col-md-12">
+                        <label for="exampleFormControlInput1" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="e.g. alex@example.com" required>
+                        <div class="invalid-feedback" id="emailReq">
+                        </div>
+                      </div>
+      
+                      <div class="col-md-12">
+                        <label for="exampleFormControlInput1" class="form-label">Message</label>
+                        <textarea class="form-control" id="msg" name="message" rows="6" placeholder="Message" required></textarea>
+                        <div class="invalid-feedback" id="msgReq">
+                        </div>
+                      </div>
+      
+                      <div class="col-md-12 text-center">
+                        <button type="submit">Send Message</button>
+                      </div>
+      
+                    </div>
+                  </form>
+                </div>
+      
+              
+        </div>
+      </div>
+
+    </div>
+  </section><!-- End About Section -->
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/contact.js' %}"></script>
+{% endblock %}
