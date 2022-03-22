@@ -18,6 +18,14 @@
   {% include 'includes/message.html' %}
   <div class="card file-upload">
     <div class="card-body">
+      {% if plan_expired %}
+      <h3 class="text-center">Your Plan has expired {{ user.profile.plan_end_date|naturaltime }}</h3>
+      <p class="text-center">Please <strong>upgrade</strong> or <strong>renew</strong> your plan to continue Uploading files</p>
+      <div class="text-center">
+        <a href="/u/plan" class="btn btn-primary">Upgrade</a>
+        <a href="/u/plan/checkout/{{ user.profile.plan|lower }}" class="btn btn-primary">Renew</a>
+      </div>
+      {% else %} 
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
       <div class="row d-flex align-items-center">
@@ -25,10 +33,10 @@
           <input class="form-control formfile" type="file" name="file" id="file" required>
         </div>
         <div class="col-lg-2">
-          <button type="button" class="upload" onclick="uploadFile()" data-bs-toggle="tooltip" data-bs-placement="top" title="Less secured and Fast upload">Upload</button>
+          <button type="button" class="upload" onclick="uploadFile()" data-bs-toggle="tooltip" data-bs-placement="top" title="Less secured and Fast upload" id="upload">Upload</button>
         </div>
         <div class="col-lg-2">
-          <button type="button" class="upload" onclick="uploadEncFile()" data-bs-toggle="tooltip" data-bs-placement="top" title="More secured and Slow upload">Encrypt & Upload</button>
+          <button type="button" class="upload" onclick="uploadEncFile()" data-bs-toggle="tooltip" data-bs-placement="top" title="More secured and Slow upload" id="enc_upload">Encrypt & Upload</button>
         </div>
       </div>
       <div class="row hide-pbar" id="pbars">
@@ -41,6 +49,7 @@
         </div>
       </div>
     </form>
+      {% endif %}
     </div>
   </div>
 
@@ -112,13 +121,13 @@ function _(el) {
   return document.getElementById(el);
 }
 
-function uploadFile() {
+  function uploadFile() {
   const csrftoken = Cookies.get('csrftoken');
   console.log(csrftoken);
 
   
   var file = _("file").files[0];
-  alert(file.name+" | "+file.size+" | "+file.type);
+  // alert(file.name+" | "+file.size+" | "+file.type);
   _("pbars").style.display = 'flex';
   var formdata = new FormData();
   formdata.append("file", file);
@@ -138,7 +147,7 @@ function uploadEncFile() {
 
   
   var file = _("file").files[0];
-  alert(file.name+" | "+file.size+" | "+file.type);
+  // alert(file.name+" | "+file.size+" | "+file.type);
   _("pbars").style.display = 'flex';
   var formdata = new FormData();
   formdata.append("file", file);
@@ -151,6 +160,9 @@ function uploadEncFile() {
   ajax.addEventListener("abort", abortHandler, false);
   ajax.send(formdata);
 }
+
+
+
 
 function progressHandler(event) {
   _("loaded_n_total").innerHTML = "Uploaded " + event.loaded + " bytes of " + event.total;

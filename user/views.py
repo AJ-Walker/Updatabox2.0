@@ -130,7 +130,13 @@ def files(request):
         if total_count == 1:
             break
     print(total_count)
-    return render(request, 'user/files.html', {'files': summaries, 'obj_count': total_count})
+    current_user = request.user
+    plan_expired = False
+    if current_user.profile.plan_end_date < timezone.now():
+        plan_expired = True
+    else:
+        plan_expired = False
+    return render(request, 'user/files.html', {'files': summaries, 'obj_count': total_count, 'plan_expired': plan_expired})
 
 
 @login_required(login_url='Login')
