@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 from django.contrib.messages import constants as messages
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-pg6e0d2n)a#ab&h%j(gw8vb22hpq7eoty=p#o71p%o=j+a^c*2'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -91,11 +93,11 @@ WSGI_APPLICATION = 'updatabox.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'updatabox2',
-        'USER': 'root',
-        'PASSWORD': 'system',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'NAME': os.getenv('NAME'),
+        'USER': os.getenv('USER'),
+        'PASSWORD': os.getenv('PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),   # Or an IP Address that your DB is hosted on
+        'PORT': os.getenv('DATABASE_PORT'),
     }
 }
 
@@ -120,15 +122,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
-EMAIL_HOST_USER = 'akj441@gmail.com' 
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587 
 EMAIL_USE_TLS = True 
-EMAIL_HOST_PASSWORD = "kqqyieleqttshryi"
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 # Razorpay 
-RAZORPAY_KEY_ID = 'rzp_test_0uMip002wXtvWT'
-RAZORPAY_KEY_SECRET = 'ITuqkzroOgqqQTxHKccohZb4'
+RAZORPAY_KEY_ID = os.getenv('RAZORPAY_KEY_ID')
+RAZORPAY_KEY_SECRET = os.getenv('RAZORPAY_KEY_SECRET')
 
 # AWS S3
 S3_BUCKET = os.environ.get("bucket")
