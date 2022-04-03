@@ -39,7 +39,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     last_login = models.DateTimeField(null=True, blank=True)
-    # date_joined = models.DateTimeField(auto_now_add=True)
     date_joined = models.DateTimeField(default=timezone.now)
     
 
@@ -80,7 +79,7 @@ class Profile(models.Model):
     plan_start_date = models.DateTimeField(default=timezone.now)
     plan_end_date = models.DateTimeField(default=timezone.now)
     is_payment_done = models.BooleanField(default=False)
-    bucket_name = models.CharField(max_length=200, unique=True)
+    bucket_name = models.CharField(max_length=200, default='')
     keydir = models.TextField(blank=True)
 
     def __str__(self):
@@ -109,84 +108,3 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.id}-{self.user.name}-{self.status}"
-
-'''
-- user
-name
-email
-password
-date_joined
-otp
-is_verified
-
--userdata
-user
-otp
-is_verified
-storage
-pricing_plan - free, basic, premium FR, BS, PR
-bucketname
-plan start date
-plan end date
-
-plan -
-user
-plan
-plan start date
-plan end date
-storage
-storage used
-
-
-class KeyDirectory(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    filename = models.CharField(max_length=200)
-    filekey = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.filename + " file by " + self.user.name
-keydir
-download
-
-order -
-user
-plan
-storage
-payment_done - false, true
-
-
-
-from django.db import models
-from django.contrib.auth.models import User
-
-
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    extra_Field_1 = models.CharField(max_length=25, blank=True)
-    extra_Field_2 = models.CharField(max_length=25, blank=True)
-
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
-you can use it in templates like this:
-
-<h2> user.get_full_name }}</h2>
-<ul>
-  <li>Username:  user.username }}</li>
-  <li>Location:  user.profile.extra_Field_1 }}</li>
-  <li>Birth Date:  user.profile.extra_Field_2 }}</li>
-</ul>
-and in views.py like this:
-
-def update_profile(request, user_id):
-    user = User.objects.get(pk=user_id)
-    user.profile.extra_Field_1 = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit...'
-    user.save()
-'''

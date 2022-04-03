@@ -20,15 +20,6 @@ from user.resources import create_s3_bucket
 def index(request):
     return render(request, 'home/index.html')
 
-# def fixme(request):
-#     users = User.objects.all()
-#     for user in users:
-#         userp = Profile.objects.get(user=user)
-#         userp.storage_limit = 5
-#         print(user.email,' : ',userp.storage_limit)
-#     print("all done")
-#     return HttpResponse("It's done.")
-
 def contact(request):
     if request.method == "POST":
         name = request.POST['name']
@@ -126,12 +117,12 @@ def signup(request):
             # set session expiry to 20 minutes
             # request.session.set_expiry(1200)
             
-            # # Send email
+            # Send email
             subject = 'OTP Verification for Updatabox'
             message = 'Your OTP for Signup Verification of Secure Cloud Storage (Valid for 5 mins) is: '+str(otp)+'\nPlease do not share with anyone!'
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ]
-            # send_mail( subject, message, email_from, recipient_list )
+            send_mail( subject, message, email_from, recipient_list )
 
             messages.success(request, 'OTP sent to your email. Please verify your email.')
             return redirect('VerifyEmail')

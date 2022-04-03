@@ -247,7 +247,8 @@ def download(request):
             my_bucket = get_bucket(request)
             file_obj = my_bucket.Object(filename).get()
             messages.success(request, 'File downloaded successfully.')
-            response = HttpResponse(file_obj['Body'].read(), headers={'Content-Type': 'text/plain', 'Content-Disposition': f'attachment; filename={filename}'})
+            response = HttpResponse(file_obj['Body'].read(), headers={'Content-Type': 'text/plain', 'Content-Disposition'
+            : f'attachment; filename={filename}'})
             return response
     else:
         return redirect('user:Files')
